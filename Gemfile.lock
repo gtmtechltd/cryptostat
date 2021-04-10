@@ -1,0 +1,85 @@
+GIT
+  remote: https://github.com/jonatack/kraken_ruby_client.git
+  revision: 92697dc98abe76ac912b00c6a3620f4bf2a2dbb2
+  specs:
+    kraken_ruby_client (0.0.1)
+      curb (~> 0.9)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.2.5)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    awrence (1.2.1)
+    binance-ruby (0.7)
+      activesupport (>= 5.1.0)
+      awrence (~> 1.0)
+      httparty (~> 0.15)
+    coin_market_pro (0.1.2)
+      activesupport (~> 5.1)
+      multi_json (~> 1.13)
+      rest-client (~> 2.0)
+    concurrent-ruby (1.1.8)
+    curb (0.9.11)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    eventmachine (1.2.7)
+    faraday (0.17.4)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.14.0)
+      faraday (>= 0.7.4, < 1.0)
+    faye-websocket (0.11.0)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.5.1)
+    http-accept (1.7.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    httparty (0.18.1)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
+    i18n (1.8.10)
+      concurrent-ruby (~> 1.0)
+    json (2.5.1)
+    kucoin-api (0.2.1)
+      faraday (~> 0.15)
+      faraday_middleware (~> 0.12)
+      faye-websocket (~> 0.10)
+    mime-types (3.3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2021.0225)
+    minitest (5.14.4)
+    multi_json (1.15.0)
+    multi_xml (0.6.0)
+    multipart-post (2.1.1)
+    netrc (0.11.0)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
+    thread_safe (0.3.6)
+    tzinfo (1.2.9)
+      thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.7)
+    websocket-driver (0.7.3)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.5)
+
+PLATFORMS
+  arm64-darwin-20
+
+DEPENDENCIES
+  binance-ruby
+  coin_market_pro
+  curb
+  json
+  kraken_ruby_client!
+  kucoin-api
+
+BUNDLED WITH
+   2.2.15
