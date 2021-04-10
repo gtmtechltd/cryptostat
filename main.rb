@@ -17,6 +17,13 @@ else
   {}
 end
 
+portfolios = if File.exists?("./portfolios.json") then
+  portfolios_file = File.read("./portfolios.json")
+  JSON.parse(portfolios_file)
+else
+  { "me": "1.0" }
+end
+
 all = []
 all << StatKraken.get(  config["kraken"] )  if config.key? "kraken"
 all << StatBinance.get( config["binance"] ) if config.key? "binance"
@@ -62,7 +69,7 @@ coins.keys.sort.each do |coin|
   end
 
   text += "#{" " * (8 - price.to_i.to_s.length)}$ #{sprintf("%5.8f", price )}"
-  text += "#{" " * (8 - usd.to_i.to_s.length)}$ #{sprintf('%5.8f', usd)}\n"
+  text += "#{" " * (8 - usd.to_i.to_s.length)}$ #{sprintf('%5.2f', usd)}\n"
 
   if amounts.length > 1 then
     amounts.each.with_index do |a, i|
@@ -85,3 +92,13 @@ outputs.reverse.each do |output|
 end
 puts "==============================================================================================="
 puts " TOTAL                                                                    $ #{total_usd}"
+puts ""
+puts "Portfolios"
+puts "================================="
+portfolios.each do | entity, percentage |
+  amount = total_usd.to_f * percentage.to_f / 100.0
+  print sprintf("%16s", entity)
+  print "  "
+  print "#{" " * (8 - amount.to_i.to_s.length)}$ #{sprintf("%5.2f", amount)}\n"
+end
+

@@ -35,6 +35,15 @@ The following API keys are optional
 }
 ```
 
+**Optionally** if you want to divide the total amount into different portfolios (e.g. you are managing funds for different people), you can create a portfolios.json file full of percentages (make sure they add up to 100.0 %):
+
+```
+{
+    "alice": "27.5",
+    "bob":   "72.5"
+}
+```
+
 Running
 -------
 
