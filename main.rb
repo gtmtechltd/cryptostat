@@ -10,6 +10,13 @@ require_relative "./stat_coinmarketcap.rb"
 file = File.read("./config.json")
 config = JSON.parse(file)
 
+price_overrides = if File.exists?("./prices.json") then
+  prices_file = File.read("./prices.json")
+  JSON.parse(prices_file)
+else
+  {}
+end
+
 all = []
 all << StatKraken.get(  config["kraken"] )  if config.key? "kraken"
 all << StatBinance.get( config["binance"] ) if config.key? "binance"
@@ -29,15 +36,18 @@ all.each do |exchange|
   end
 end
 
-puts "            COIN        SUPPLY            EXCHANGES                       USD-AMOUNT"
-puts "==============================================================================================="
+puts "            COIN        SUPPLY            EXCHANGES                       PRICE           USD-AMOUNT"
+puts "=========================================================================================================="
 outputs = []
 total_usd = 0.0
 coins.keys.sort.each do |coin|
   text    = ""
   amounts = coins[ coin ]
   total   = amounts.inject(0.0){|sum,x| sum + x.to_f }
-  price   = prices[ coin ].to_f || "0.0".to_f
+  price   = "0.0"
+  price   = prices[ coin ] if prices.key? coin 
+  price   = price_overrides[ coin ] if price_overrides.key? coin
+  price   = price.to_f
   usd     = total * price 
   text += "#{sprintf('%16s', coin)} "
   text += "#{" " * (8 - total.to_i.to_s.length)}#{sprintf('%5.8f', total)} "
@@ -51,6 +61,7 @@ coins.keys.sort.each do |coin|
     text += "#{" " * (5 - amounts.first.to_i.to_s.length)}#{sprintf('%5.8f', amounts.first)} "
   end
 
+  text += "#{" " * (8 - price.to_i.to_s.length)}$ #{sprintf("%5.8f", price )}"
   text += "#{" " * (8 - usd.to_i.to_s.length)}$ #{sprintf('%5.8f', usd)}\n"
 
   if amounts.length > 1 then

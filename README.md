@@ -26,6 +26,15 @@ The following API keys are optional
 * kraken
 * kucoin
 
+**Optionally** if you want to override current prices, you can create a `prices.json` file with whatever prices you want. This is meant to help work out what your portfolio might have looked like in the past, as querying historical prices on coinmarketcap is a paid-for service.
+
+```
+{ 
+   "ETH": "1000.00",
+   "BTC": "1000000.00"
+}
+```
+
 Running
 -------
 
