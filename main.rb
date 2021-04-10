@@ -4,6 +4,7 @@ require "json"
 require_relative "./stat_binance.rb"
 require_relative "./stat_kraken.rb"
 require_relative "./stat_kucoin.rb"
+require_relative "./stat_manual.rb"
 require_relative "./stat_coinmarketcap.rb"
 
 file = File.read("./config.json")
@@ -13,6 +14,7 @@ all = []
 all << StatKraken.get(  config["kraken"] )  if config.key? "kraken"
 all << StatBinance.get( config["binance"] ) if config.key? "binance"
 all << StatKucoin.get(  config["kucoin"] )  if config.key? "kucoin"
+all << StatManual.get(  config["manual"] )  if config.key? "manual"
 prices = StatCoinmarketcap.get( config["coinmarketcap"] )
 
 coins = {}
@@ -61,7 +63,7 @@ coins.keys.sort.each do |coin|
     end
   end
 
-  outputs << {:usd => usd, :text => text }
+  outputs << {:usd => usd, :text => text } if usd > 1.0
   total_usd += usd
 
 end

@@ -16,6 +16,10 @@
     "api_secret": "fcf8....-....-....-....-.......18f0b",
     "api_passphrase": "b........o"
   },
+  "manual": {
+    "comment": "use this for any amounts you want to include separate to autodiscovery. Use format { TICKER.comment : 100.0 (Amount) }",
+    "FET.staking": "100.0"
+  },
   "ethwallets": [
     { "name": "ledger",   "address": "0x0568F..................................." },
     { "name": "metamask", "address": "0x3e714..................................." },

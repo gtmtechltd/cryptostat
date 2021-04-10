@@ -2,7 +2,7 @@ require 'rest-client'
 
 class StatCoinmarketcap
   def self.get config
-    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=5000"
     headers = {
       "X-CMC_PRO_API_KEY" => config["api_key"]
     }
@@ -12,6 +12,7 @@ class StatCoinmarketcap
     json["data"].each do |item|
       prices[ item["symbol"] ] = item["quote"]["USD"]["price"]
     end
+    prices[ "USD" ] = "1.0"
     prices
   end
 end
