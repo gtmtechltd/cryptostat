@@ -35,4 +35,17 @@ To run:
 bundle exec main.rb
 ```
 
+Example output:
 
+```
+            COIN        SUPPLY            EXCHANGES                       USD-AMOUNT
+===============================================================================================
+             ETH        4.15194867           kraken=    2.00000928     $ 8585.77738908
+                                       binance.free=    2.15193939
+             BTC        0.09983056           kraken=    0.09983047     $ 5814.09585257
+                                       kucoin.trade=    0.00000009
+             BNB        9.89597804     binance.free                    $ 4491.56681965
+             TRX    33939.05500000     binance.free                    $ 3935.84434825
+             KCS      163.99715611     kucoin.trade=  163.98583232     $ 2776.71642748
+                                        kucoin.main=    0.01132379
+```
