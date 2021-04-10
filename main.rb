@@ -71,4 +71,4 @@ outputs.reverse.each do |output|
   puts output[:text]
 end
 puts "==============================================================================================="
-puts "                                                                          $ #{total_usd}"
+puts " TOTAL                                                                    $ #{total_usd}"
