@@ -7,6 +7,11 @@
     "comment": "use this for latest prices",
     "api_key": "9464....-....-....-....-........114a"
   },
+  "fixer.io": {
+    "comment": "use this if you want to get prices in your own currency",
+    "api_key": "4698........................1583",
+    "currency": "GBP"
+  },
   "kraken": {
     "api_key": "EHo6wp............................................RVe4fa",
     "api_secret": "SNx8o...........................................................................aGjQFQ"

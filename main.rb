@@ -6,6 +6,15 @@ require_relative "./stat_kraken.rb"
 require_relative "./stat_kucoin.rb"
 require_relative "./stat_manual.rb"
 require_relative "./stat_coinmarketcap.rb"
+require_relative "./stat_fixer.rb"
+
+def sig(f)
+  value = sprintf("%8.8f", f)
+  while value.length < 17 do
+    value = " " + value
+  end
+  value
+end
 
 file = File.read("./config.json")
 config = JSON.parse(file)
@@ -29,7 +38,11 @@ all << StatKraken.get(  config["kraken"] )  if config.key? "kraken"
 all << StatBinance.get( config["binance"] ) if config.key? "binance"
 all << StatKucoin.get(  config["kucoin"] )  if config.key? "kucoin"
 all << StatManual.get(  config["manual"] )  if config.key? "manual"
-prices = StatCoinmarketcap.get( config["coinmarketcap"] )
+xrate    = 1.0
+xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"
+currency = "USD"
+currency = config["fixer.io"]["currency"] if config.key? "fixer.io"
+prices   = StatCoinmarketcap.get( config["coinmarketcap"] )
 
 coins = {}
 exchange_coins = {}
@@ -43,8 +56,8 @@ all.each do |exchange|
   end
 end
 
-puts "            COIN        SUPPLY            EXCHANGES                       PRICE           USD-AMOUNT"
-puts "=========================================================================================================="
+puts "- coin -| -- holdings --- | ---- price USD ---- | ---- price #{currency} ---- | ---- total USD ---- | ---- total #{currency} ---- | EXCHANGES"
+puts "=================================================================================================================================================="
 outputs = []
 total_usd = 0.0
 coins.keys.sort.each do |coin|
@@ -56,49 +69,37 @@ coins.keys.sort.each do |coin|
   price   = price_overrides[ coin ] if price_overrides.key? coin
   price   = price.to_f
   usd     = total * price 
-  text += "#{sprintf('%16s', coin)} "
-  text += "#{" " * (8 - total.to_i.to_s.length)}#{sprintf('%5.8f', total)} "
+  text += "#{sprintf('%-8s', coin)} "           # coin
+  text += sig(total)                            # holdings
+  text += sig(price) + " USD "                  # price-usd
+  text += sig(price * xrate) + " #{currency} "  # price-currency
+  text += sig(usd) + " USD "                    # total-usd
+  text += sig(usd * xrate) + " #{currency} "    # total-currency
 
-  if amounts.length == 1 then
-    text += sprintf("%16s", exchange_coins[ coin ].first)
-    text += "#{" " * 16}"
-  else
-    text += sprintf("%16s", exchange_coins[ coin ].first)
-    text += "="
-    text += "#{" " * (5 - amounts.first.to_i.to_s.length)}#{sprintf('%5.8f', amounts.first)} "
+  lines = []
+  amounts.each.with_index do |a, i|
+    lines << text + sprintf("%16s", exchange_coins[ coin ][ i ]) + "=" + sig(amounts[i])
+    text   = " " * text.length
   end
+  outputs << { :usd => usd, :lines => lines }
 
-  text += "#{" " * (8 - price.to_i.to_s.length)}$ #{sprintf("%5.8f", price )}"
-  text += "#{" " * (8 - usd.to_i.to_s.length)}$ #{sprintf('%5.2f', usd)}\n"
-
-  if amounts.length > 1 then
-    amounts.each.with_index do |a, i|
-      next if i==0
-      text += "                                   "
-      text += sprintf("%16s", exchange_coins[ coin ][ i ])
-      text += "="
-      text += "#{" " * (5 - amounts[ i ].to_i.to_s.length)}#{sprintf('%5.8f', amounts[ i ])}\n"
-    end
-  end
-
-  outputs << {:usd => usd, :text => text } if usd > 1.0
   total_usd += usd
-
 end
 
 outputs.sort_by! { |k| k[:usd] }
 outputs.reverse.each do |output|
-  puts output[:text]
+  lines = output[:lines]
+  usd   = output[:usd]
+  lines.each do |line|
+    puts line
+  end if usd > 5.0   # Don't print small amounts
 end
-puts "==============================================================================================="
-puts " TOTAL                                                                    $ #{total_usd}"
+puts "=================================================================================================================================================="
+puts "TOTAL                                                                 #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}"
 puts ""
 puts "Portfolios"
-puts "================================="
+puts "========================================================="
 portfolios.each do | entity, percentage |
   amount = total_usd.to_f * percentage.to_f / 100.0
-  print sprintf("%16s", entity)
-  print "  "
-  print "#{" " * (8 - amount.to_i.to_s.length)}$ #{sprintf("%5.2f", amount)}\n"
+  puts "#{sprintf("%-12s", entity)}  #{sig(amount)} USD    #{sig(amount * xrate)} #{currency}"
 end
-

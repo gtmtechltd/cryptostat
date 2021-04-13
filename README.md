@@ -25,6 +25,7 @@ The following API keys are optional
 * binance
 * kraken
 * kucoin
+* fixer.io  - for currency conversions e.g. display in GBP
 
 **Optionally** if you want to override current prices, you can create a `prices.json` file with whatever prices you want. This is meant to help work out what your portfolio might have looked like in the past, as querying historical prices on coinmarketcap is a paid-for service.
 
