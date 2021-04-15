@@ -1,0 +1,57 @@
+{
+  "address": "0x3e714a4aadecbc43e28401683ca0fc51c9e9e93c",
+  "ETH": {
+    "balance": 0.003250355663643179,
+    "price": {
+      "rate": 2471.6423591966586,
+      "diff": 6.02,
+      "diff7d": 20.7,
+      "ts": 1618500182,
+      "marketCapUsd": 285420464342.42633,
+      "availableSupply": 115478059.874,
+      "volume24h": 33453985627.059437,
+      "diff30d": 37.336906111287846,
+      "volDiff1": 0.48729829952667103,
+      "volDiff7": -7.898670255394876,
+      "volDiff30": -4.512239944200374
+    }
+  },
+  "countTxs": 21,
+  "tokens": [
+    {
+      "tokenInfo": {
+        "address": "0x2e1e15c44ffe4df6a0cb7371cd00d5028e571d14",
+        "decimals": "18",
+        "name": "Mettalex",
+        "owner": "0x7940ac8a6493e8dcc4cdfa0f30a0db77c2399f40",
+        "symbol": "MTLX",
+        "totalSupply": "40000000000000000000000000",
+        "lastUpdated": 1618500464,
+        "issuancesCount": 0,
+        "holdersCount": 4809,
+        "website": "https://mettalex.com",
+        "telegram": "https://t.me/mettalex_official",
+        "twitter": "Mettalex",
+        "image": "/images/MTLX2e1e15c4.jpg",
+        "coingecko": "mettalex",
+        "price": {
+          "rate": 11.69359525972548,
+          "diff": 8.97,
+          "diff7d": 35.14,
+          "ts": 1618500063,
+          "marketCapUsd": 13131943.91393875,
+          "availableSupply": 1123003.11600207,
+          "volume24h": 4720978.88123135,
+          "diff30d": 16.81445995150183,
+          "volDiff1": 17.621366992083807,
+          "volDiff7": 50.00397897294076,
+          "volDiff30": 21.33388439373209,
+          "currency": "USD"
+        }
+      },
+      "balance": 21607867444870800000,
+      "totalIn": 0,
+      "totalOut": 0
+    }
+  ]
+}

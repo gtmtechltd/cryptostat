@@ -7,6 +7,7 @@ require_relative "./stat_kucoin.rb"
 require_relative "./stat_manual.rb"
 require_relative "./stat_coinmarketcap.rb"
 require_relative "./stat_fixer.rb"
+require_relative "./stat_ethwallet.rb"
 
 def sig(f)
   value = sprintf("%8.8f", f)
@@ -33,11 +34,30 @@ else
   { "me": "1.0" }
 end
 
+def dump coins
+  coins.each do |k, v|
+    puts "-> #{k.split(".").first} = #{v}"
+  end
+end
+
 all = []
-all << StatKraken.get(  config["kraken"] )  if config.key? "kraken"
-all << StatBinance.get( config["binance"] ) if config.key? "binance"
-all << StatKucoin.get(  config["kucoin"] )  if config.key? "kucoin"
-all << StatManual.get(  config["manual"] )  if config.key? "manual"
+coins = StatKraken.get(  config["kraken"] )  if config.key? "kraken"
+dump coins
+all << coins
+coins = StatBinance.get( config["binance"] ) if config.key? "binance"
+dump coins
+all << coins
+coins = StatKucoin.get(  config["kucoin"] )  if config.key? "kucoin"
+dump coins
+all << coins
+coins = StatManual.get(  config["manual"] )  if config.key? "manual"
+dump coins
+all << coins
+config["ethwallets"].each do |wallet|
+  coins = StatEthwallet.get( wallet )
+  dump coins
+  all << coins
+end
 xrate    = 1.0
 xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"
 currency = "USD"

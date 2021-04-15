@@ -2,6 +2,7 @@ require "kraken_ruby_client"
 
 class StatKraken
   def self.get config
+    STDERR.puts "Analysing kraken..."
     client = Kraken::Client.new(api_key: config["api_key"], api_secret: config["api_secret"])
     query = client.balance["result"]
 

@@ -1,12 +1,13 @@
 require "kucoin/api"
 
 class StatKucoin
-  def self.get _config
+  def self.get config
+    STDERR.puts "Analysing kucoin..."
 
     client = Kucoin::Api::REST.new \
-      api_key:        _config["api_key"],
-      api_secret:     _config["api_secret"],
-      api_passphrase: _config["api_passphrase"]
+      api_key:        config["api_key"],
+      api_secret:     config["api_secret"],
+      api_passphrase: config["api_passphrase"]
 
     query = client.user.accounts.list
 

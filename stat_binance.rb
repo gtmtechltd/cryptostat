@@ -2,6 +2,7 @@ require "binance-ruby"
 
 class StatBinance
   def self.get config
+    STDERR.puts "Analysing binance..."
     ENV["BINANCE_API_KEY"]    = config["api_key"]
     ENV["BINANCE_SECRET_KEY"] = config["api_secret"]
     query                     = Binance::Api.info!
