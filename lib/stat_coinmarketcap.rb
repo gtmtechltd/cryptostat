@@ -18,6 +18,15 @@ class StatCoinmarketcap
     prices   = {}
     json["data"].each do |item|
       prices[ item["symbol"] ] = item["quote"]["USD"]["price"]
+
+      # We also store a key in the form COIN(token-address) because some tokens on wallets have the same name, but different contract addresses.
+      if item.key? "platform" and item["platform"].class.to_s == "Hash" then
+        if item["platform"].key? "token_address" then
+          key           = "#{item["symbol"]}(#{item["platform"]["token_address"]})"
+          value         = item["quote"]["USD"]["price"] 
+          prices[ key ] = value
+        end
+      end
     end
     prices[ "USD" ] = "1.0"
     prices

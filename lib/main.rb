@@ -69,6 +69,7 @@ xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"
 currency = "USD"
 currency = config["fixer.io"]["currency"] if config.key? "fixer.io"
 prices   = StatCoinmarketcap.get( config["coinmarketcap"] )
+prices[ currency ] = (1.0 / xrate).to_s
 
 coins = {}
 exchange_coins = {}
@@ -100,13 +101,13 @@ coins.keys.sort.each do |coin|
   price   = price_overrides[ coin ] if price_overrides.key? coin
   price   = price.to_f
   usd     = total * price 
-  text += "#{sprintf('%-8s', coin)} "           # coin
-  text += sig(total)                            # holdings
-  text += sig(price) + " USD "                  # price-usd
+  text += "#{sprintf('%-8s', coin.split("(").first)} "     # coin - up to ()
+  text += sig(total)                                       # holdings
+  text += sig(price) + " USD "                             # price-usd
   if currency != "USD" then
-    text += sig(price * xrate) + " #{currency} "  # price-currency
+    text += sig(price * xrate) + " #{currency} "           # price-currency
   end
-  text += sig(usd * xrate) + " #{currency}  "    # total-currency
+  text += sig(usd * xrate) + " #{currency}  "              # total-currency
 
   lines = []
   amounts.each.with_index do |a, i|
@@ -124,7 +125,7 @@ outputs.reverse.each do |output|
   usd   = output[:usd]
   lines.each do |line|
     puts line
-  end if usd > 5.0   # Don't print small amounts
+  end if usd > 1.0   # Don't print small amounts
 end
 puts "=================================================================================================================================================="
 puts "TOTAL                                                                 #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}"

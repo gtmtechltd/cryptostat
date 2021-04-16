@@ -20,7 +20,7 @@ class StatKraken
       "XXBT" => "BTC",
       "XXRP" => "XRP",
       "XLTC" => "LTC",
-      "XXDG" => "XDG",
+      "XXDG" => "DOGE",
       "XETH" => "ETH",
       "XETC" => "ETC"
     }

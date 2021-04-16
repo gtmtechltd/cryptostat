@@ -5,6 +5,7 @@ cryptostat
 
 Features:
 
+* bugfix - Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
 * **new** - Docker version
 * **new** - Eth wallet (ERC20) scanning now supported
 * **new** - Currency conversions to your favourite currency
