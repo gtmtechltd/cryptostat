@@ -27,6 +27,11 @@ else
   {}
 end
 
+# Remove any %age signs from the price_overrides
+price_overrides.each do |k, v|
+  price_overrides[ k ] = v.split("%").first
+end
+
 portfolios = if File.exists?("config/portfolios.json") then
   portfolios_file = File.read("config/portfolios.json")
   JSON.parse(portfolios_file)
