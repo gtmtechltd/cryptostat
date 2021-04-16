@@ -1,4 +1,5 @@
 require "kucoin/api"
+require_relative "./utils.rb"
 
 class StatKucoin
   def self.get config
@@ -8,10 +9,10 @@ class StatKucoin
       api_passphrase: config["api_passphrase"]
 
     response = if ENV['CRYPTOSTAT_TEST'] == true then
-      STDERR.puts "Analysing kucoin..."
+      Utils.info "Analysing kucoin..."
       client.user.accounts.list
     else
-      STDERR.puts "Analysing kucoin (testmode)..."
+      Utils.info "Analysing kucoin (testmode)..."
       JSON.parse( File.read( "examples/api.kucoin.com.txt" ) )
     end
 

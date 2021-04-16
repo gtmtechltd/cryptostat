@@ -1,4 +1,5 @@
 require 'rest-client'
+require_relative "./utils.rb"
 
 class StatCoinmarketcap
   def self.get config
@@ -7,10 +8,10 @@ class StatCoinmarketcap
       "X-CMC_PRO_API_KEY" => config["api_key"]
     }
     response = if ENV['CRYPTOSTAT_TEST'] == true then
-      STDERR.puts "Analysing coinmarketcap..."
+      Utils.info "Analysing coinmarketcap..."
       RestClient.get(url, headers)
     else
-      STDERR.puts "Analysing coinmarketcap (testmode)..."
+      Utils.info "Analysing coinmarketcap (testmode)..."
       File.read("examples/pro-api.coinmarketcap.com.txt")
     end 
     json     = JSON.parse(response)
@@ -20,9 +21,6 @@ class StatCoinmarketcap
     end
     prices[ "USD" ] = "1.0"
     prices
-  end
-
-  def self.dummy_response
   end
 
 end

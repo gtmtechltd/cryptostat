@@ -1,4 +1,5 @@
 require 'rest-client'
+require_relative "./utils.rb"
 
 class StatEthwallet
   def self.get wallet
@@ -8,10 +9,10 @@ class StatEthwallet
     headers  = {}
     url      = "https://api.ethplorer.io/getAddressInfo/#{address}?apiKey=freekey"
     response = if ENV["CRYPTOSTAT_TEST"] == "true" then
-      STDERR.puts "Analysing eth wallet #{name} (#{address})..."
+      Utils.info "Analysing eth wallet #{name} (#{address}) (testmode)..."
       File.read("examples/api.ethplorer.io.txt")
     else
-      STDERR.puts "Analysing eth wallet #{name} (#{address}) (testmode)..."
+      Utils.info "Analysing eth wallet #{name} (#{address})..."
       RestClient.get(url, headers)
     end
     json     = JSON.parse(response)
@@ -22,7 +23,7 @@ class StatEthwallet
 #  }
 
     tokens   = { "ETH.#{name}-#{address.split(//).take(7).join("")}" => json["ETH"]["balance"] }
-#    STDERR.puts "-> ETH = #{json["ETH"]["balance"]}"
+#    Utils.debug "-> ETH = #{json["ETH"]["balance"]}"
 
 #  "tokens": [
 #    {
@@ -50,7 +51,7 @@ class StatEthwallet
         balance = balance.to_f / 10.0
       end
       tokens[ "#{symbol}(#{address}).#{name}-#{address.split(//).take(7).join("")}" ] = balance
-#      STDERR.puts "-> #{tokens[ symbol ]} = #{balance}"
+#      Utils.debug "-> #{tokens[ symbol ]} = #{balance}"
     end
 
     tokens    

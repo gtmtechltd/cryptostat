@@ -17,18 +17,18 @@ def sig(f)
   value
 end
 
-file = File.read("./config.json")
+file = File.read("config/config.json")
 config = JSON.parse(file)
 
-price_overrides = if File.exists?("./prices.json") then
-  prices_file = File.read("./prices.json")
+price_overrides = if File.exists?("config/prices.json") then
+  prices_file = File.read("config/prices.json")
   JSON.parse(prices_file)
 else
   {}
 end
 
-portfolios = if File.exists?("./portfolios.json") then
-  portfolios_file = File.read("./portfolios.json")
+portfolios = if File.exists?("config/portfolios.json") then
+  portfolios_file = File.read("config/portfolios.json")
   JSON.parse(portfolios_file)
 else
   { "me": "1.0" }
@@ -36,7 +36,7 @@ end
 
 def dump coins
   coins.each do |k, v|
-    puts "-> #{k.split(".").first} = #{v}"
+    Utils.debug "-> #{k.split(".").first} = #{v}"
   end
 end
 
@@ -57,7 +57,7 @@ config["ethwallets"].each do |wallet|
   coins = StatEthwallet.get( wallet )
   dump coins
   all << coins
-  sleep 5
+  sleep 5 unless ENV["CRYPTOSTAT_TEST"] == "true"    # To avoid Too Many Requests API rate limiting for multiple eth wallets
 end
 xrate    = 1.0
 xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"
@@ -77,7 +77,12 @@ all.each do |exchange|
   end
 end
 
-puts "- coin -| -- holdings --- | ---- price USD ---- | ---- price #{currency} ---- | ---- total USD ---- | ---- total #{currency} ---- | EXCHANGES"
+puts ""
+if currency == "USD" then
+  puts "- coin -| -- holdings --- | ---- price USD ---- | ---- total USD ---- | EXCHANGES"
+else
+  puts "- coin -| -- holdings --- | ---- price USD ---- | ---- price #{currency} ---- | ---- total #{currency} ---- | EXCHANGES"
+end
 puts "=================================================================================================================================================="
 outputs = []
 total_usd = 0.0
@@ -93,9 +98,10 @@ coins.keys.sort.each do |coin|
   text += "#{sprintf('%-8s', coin)} "           # coin
   text += sig(total)                            # holdings
   text += sig(price) + " USD "                  # price-usd
-  text += sig(price * xrate) + " #{currency} "  # price-currency
-  text += sig(usd) + " USD "                    # total-usd
-  text += sig(usd * xrate) + " #{currency} "    # total-currency
+  if currency != "USD" then
+    text += sig(price * xrate) + " #{currency} "  # price-currency
+  end
+  text += sig(usd * xrate) + " #{currency}  "    # total-currency
 
   lines = []
   amounts.each.with_index do |a, i|
