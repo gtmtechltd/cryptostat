@@ -3,6 +3,17 @@ cryptostat
 
 `cryptostat` is a simple tool to go off and query all your exchanges and wallets, cross-reference them with the latest prices from coinmarketcap and provide a summary of what you own where. It was written as a simple alternative to Blockfolio which doesn't always work and is overcomplex.
 
+Features:
+
+* **new** - Eth wallet (ERC20) scanning now supported
+* **new** - Currency conversions to your favourite currency
+* **new** - Test mode for development using dummy API responses
+* Gets realtime prices from coinmarketcap
+* Scans Kucoin, Kraken and Binance exchanges
+* Ability to specify offline coins 
+* Ability to split total holdings into portfolios
+* Ability to inject fake (historical) prices
+
 Setup
 -----
 
