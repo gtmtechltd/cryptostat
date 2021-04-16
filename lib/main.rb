@@ -8,6 +8,7 @@ require_relative "./stat_manual.rb"
 require_relative "./stat_coinmarketcap.rb"
 require_relative "./stat_fixer.rb"
 require_relative "./stat_ethwallet.rb"
+require_relative "./config.rb"
 
 def sig(f)
   value = sprintf("%8.8f", f)
@@ -17,8 +18,7 @@ def sig(f)
   value
 end
 
-file = File.read("config/config.json")
-config = JSON.parse(file)
+config = Config.get
 
 price_overrides = if File.exists?("config/prices.json") then
   prices_file = File.read("config/prices.json")
