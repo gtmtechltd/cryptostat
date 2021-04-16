@@ -22,7 +22,7 @@ class StatBinance
   def self.get config
     ENV["BINANCE_API_KEY"]    = config["api_key"]
     ENV["BINANCE_SECRET_KEY"] = config["api_secret"]
-    response = if ENV['CRYPTOSTAT_TEST'] == true then
+    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
       Utils.info "Analysing binance (testmode)..."
       self.symbolize( JSON.parse( File.read( "examples/api.binance.com.txt" ) ) )
     else

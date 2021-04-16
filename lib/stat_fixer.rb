@@ -8,7 +8,7 @@ class StatFixer
     url      = "http://data.fixer.io/api/latest?access_key=#{api_key}&symbols=USD,#{currency}&format=1"
     headers  = {}
 
-    response = if ENV['CRYPTOSTAT_TEST'] == true then
+    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
       Utils.info "Analysing fixer.io (testmode)..."
       File.read( "examples/data.fixer.io.txt" )
     else

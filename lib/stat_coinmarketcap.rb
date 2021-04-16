@@ -7,7 +7,7 @@ class StatCoinmarketcap
     headers = {
       "X-CMC_PRO_API_KEY" => config["api_key"]
     }
-    response = if ENV['CRYPTOSTAT_TEST'] == true then
+    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
       Utils.info "Analysing coinmarketcap (testmode)..."
       File.read("examples/pro-api.coinmarketcap.com.txt")
     else
