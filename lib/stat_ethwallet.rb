@@ -12,7 +12,7 @@ class StatEthwallet
       Utils.info "Analysing eth wallet #{name} (#{address}) (testmode)..."
       File.read("examples/api.ethplorer.io.txt")
     else
-      Utils.info "Analysing eth wallet #{name} (#{address})..."
+      Utils.info "Analysing eth wallet #{name} (#{address.split(//).take(10).join("")}...)..."
       RestClient.get(url, headers)
     end
     json     = JSON.parse(response)

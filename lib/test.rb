@@ -10,4 +10,6 @@ require_relative "./config.rb"
 config = Config.get
 
 c = Kernel.const_get("Stat#{arg.capitalize}")
-puts c.send( :get, config["#{arg}"] )
+r = c.send( :get, config["#{arg}"] )
+
+puts "#{r.class} = #{r}"

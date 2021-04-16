@@ -5,6 +5,7 @@ require_relative "./stat_binance.rb"
 require_relative "./stat_kraken.rb"
 require_relative "./stat_kucoin.rb"
 require_relative "./stat_manual.rb"
+require_relative "./stat_probit.rb"
 require_relative "./stat_coinmarketcap.rb"
 require_relative "./stat_fixer.rb"
 require_relative "./stat_ethwallet.rb"
@@ -46,18 +47,16 @@ def dump coins
 end
 
 all = []
-coins = StatKraken.get(  config["kraken"] )  if config.key? "kraken"
-dump coins
-all << coins
-coins = StatBinance.get( config["binance"] ) if config.key? "binance"
-dump coins
-all << coins
-coins = StatKucoin.get(  config["kucoin"] )  if config.key? "kucoin"
-dump coins
-all << coins
-coins = StatManual.get(  config["manual"] )  if config.key? "manual"
-dump coins
-all << coins
+
+[ "binance", "kraken", "kucoin", "manual", "probit" ].each do |exchange|
+  c = Kernel.const_get("Stat#{exchange.capitalize}")
+  if config.key? exchange then
+    coins = c.send( :get, config[ exchange ] )
+    dump coins
+    all << coins
+  end
+end
+
 config["ethwallets"].each do |wallet|
   coins = StatEthwallet.get( wallet )
   dump coins
