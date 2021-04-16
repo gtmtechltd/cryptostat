@@ -1,5 +1,5 @@
 {
-  "address": "0x3e714a4aadecbc43e28401683ca0fc51c9e9e93c",
+  "address": "0x1111111111222222222233333333334444444444",
   "ETH": {
     "balance": 0.003250355663643179,
     "price": {
@@ -23,7 +23,7 @@
         "address": "0x2e1e15c44ffe4df6a0cb7371cd00d5028e571d14",
         "decimals": "18",
         "name": "Mettalex",
-        "owner": "0x7940ac8a6493e8dcc4cdfa0f30a0db77c2399f40",
+        "owner": "0x1111111111222222222233333333334444444444",
         "symbol": "MTLX",
         "totalSupply": "40000000000000000000000000",
         "lastUpdated": 1618500464,

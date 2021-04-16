@@ -57,6 +57,7 @@ config["ethwallets"].each do |wallet|
   coins = StatEthwallet.get( wallet )
   dump coins
   all << coins
+  sleep 5
 end
 xrate    = 1.0
 xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"

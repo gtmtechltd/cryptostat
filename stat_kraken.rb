@@ -2,9 +2,15 @@ require "kraken_ruby_client"
 
 class StatKraken
   def self.get config
-    STDERR.puts "Analysing kraken..."
     client = Kraken::Client.new(api_key: config["api_key"], api_secret: config["api_secret"])
-    query = client.balance["result"]
+
+    response = if ENV['CRYPTOSTAT_TEST'] == true then
+      STDERR.puts "Analysing kraken..."
+      client.balance["result"]
+    else
+      STDERR.puts "Analysing kraken (testmode)..."
+      JSON.parse( File.read( "examples/api.kraken.com.txt" ) )
+    end
 
     translate_currencies = {
       "ZUSD" => "USD",
@@ -19,7 +25,7 @@ class StatKraken
     }
 
     result = {}
-    query.each do |currency, amount|
+    response.each do |currency, amount|
       translated_currency = currency
       translated_currency = translate_currencies[ currency] if translate_currencies.key? currency
       result[ "#{translated_currency}.kraken" ] = amount unless amount.tr("0.", "").empty?
