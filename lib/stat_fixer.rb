@@ -9,11 +9,11 @@ class StatFixer
     headers  = {}
 
     response = if ENV['CRYPTOSTAT_TEST'] == true then
-      Utils.info "Analysing fixer.io..."
-      RestClient.get(url, headers)
-    else
       Utils.info "Analysing fixer.io (testmode)..."
       File.read( "examples/data.fixer.io.txt" )
+    else
+      Utils.info "Analysing fixer.io..."
+      RestClient.get(url, headers)
     end
     json     = JSON.parse(response)
     xrate    = json["rates"][currency].to_f / json["rates"]["USD"].to_f

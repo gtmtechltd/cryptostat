@@ -8,11 +8,11 @@ class StatCoinmarketcap
       "X-CMC_PRO_API_KEY" => config["api_key"]
     }
     response = if ENV['CRYPTOSTAT_TEST'] == true then
-      Utils.info "Analysing coinmarketcap..."
-      RestClient.get(url, headers)
-    else
       Utils.info "Analysing coinmarketcap (testmode)..."
       File.read("examples/pro-api.coinmarketcap.com.txt")
+    else
+      Utils.info "Analysing coinmarketcap..."
+      RestClient.get(url, headers)
     end 
     json     = JSON.parse(response)
     prices   = {}

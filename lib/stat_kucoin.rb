@@ -9,11 +9,11 @@ class StatKucoin
       api_passphrase: config["api_passphrase"]
 
     response = if ENV['CRYPTOSTAT_TEST'] == true then
-      Utils.info "Analysing kucoin..."
-      client.user.accounts.list
-    else
       Utils.info "Analysing kucoin (testmode)..."
       JSON.parse( File.read( "examples/api.kucoin.com.txt" ) )
+    else
+      Utils.info "Analysing kucoin..."
+      client.user.accounts.list
     end
 
     result = {}
