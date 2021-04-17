@@ -25,7 +25,7 @@ Setup
 
 At the very minimum, you will need:
 
-* an API key for coinmarketcap.com (it can be the free one) - this is to query prices of crypto tokens.
+* an API key for `coinmarketcap.com` (it can be the free one) - this is to query prices of crypto tokens.
 * an API key for `fixer.io` if you wish the prices to be displayed in a currency other than USD.
 
 Copy `config/config.json.example` to `config/config.json` and edit it to supply it with these and other api keys for your exchanges in the relevant sections. You will see examples of many exchanges - delete the entries you are not interested in.
@@ -100,7 +100,7 @@ Fixer.io section is optional but looks like this:
 ```
   "prices": {
     "fixer.io": {
-      "api_key": "4698b372882750c1bb9b017bad491583",
+      "api_key": "...some..api.key................",
       "currency": "GBP"
     }
   }
