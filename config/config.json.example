@@ -1,37 +1,68 @@
 {
-  "binance": {
-    "api_key": "I7M1W1d..................................................NhJLubq",
-    "api_secret": "k5nmyT....................................................DvsEfn"
+  "exchanges": {
+    "binance": {
+      "api_key": "I7M1W1d..................................................NhJLubq",
+      "api_secret": "k5nmyT....................................................DvsEfn"
+    },
+    "bitfinex": {
+      "api_key": "iL39R.................................RvT9M",
+      "api_secret": "SMlZz.................................hFjaG"
+    },
+    "bitmex": {
+      "api_key": "CsLa9..............H4fva",
+      "api_secret": "dhc-BY.....................................CJExr"
+    },
+    "bittrex": {
+      "api_key": "ef1d0......................7da04"
+    },
+    "kraken": {
+      "api_key": "EHo6wp............................................RVe4fa",
+      "api_secret": "SNx8o...........................................................................aGjQFQ"
+    },
+    "kucoin": {
+      "api_key": "6070................a9bd",
+      "api_secret": "fcf8....-....-....-....-.......18f0b",
+      "api_passphrase": "b........o"
+    },
+    "poloniex1": {
+      "exchange": "poloniex",
+      "api_key": "SPMG2...-........-........-...4IVI1",
+      "api_secret": "1dc84.....................................................................................................................dac7be"
+    },
+    "poloniex2": {
+      "exchange": "poloniex",
+      "api_key": "TPMLL...-........-........-...1RSYN",
+      "api_secret": "50f3e......................................................................................................................8ade8"
+    },
+    "manual": {
+      "comment": "use this for any amounts you want to include separate to autodiscovery. Use format { TICKER.comment : 100.0 (Amount) }",
+      "FET.staking": "100.0"
+    }
   },
-  "coinmarketcap": {
-    "comment": "use this for latest prices",
-    "api_key": "9464....-....-....-....-........114a"
+  "extra": {},
+  "prices": {
+    "coinmarketcap": {
+      "comment": "use this for latest token prices",
+      "api_key": "9464....-....-....-....-........114a"
+    },
+    "fixer.io": {
+      "comment": "use this if you want to get prices in your own currency",
+      "api_key": "4698........................1583",
+      "currency": "GBP"
+    }
   },
-  "fixer.io": {
-    "comment": "use this if you want to get prices in your own currency",
-    "api_key": "4698........................1583",
-    "currency": "GBP"
-  },
-  "kraken": {
-    "api_key": "EHo6wp............................................RVe4fa",
-    "api_secret": "SNx8o...........................................................................aGjQFQ"
-  },
-  "kucoin": {
-    "api_key": "6070................a9bd",
-    "api_secret": "fcf8....-....-....-....-.......18f0b",
-    "api_passphrase": "b........o"
-  },
-  "manual": {
-    "comment": "use this for any amounts you want to include separate to autodiscovery. Use format { TICKER.comment : 100.0 (Amount) }",
-    "FET.staking": "100.0"
-  },
-  "ethwallets": [
-    { "name": "ledger",   "address": "0x0568F..................................." },
-    { "name": "metamask", "address": "0x3e714..................................." },
-    { "name": "coinbase", "address": "0x0B6c8..................................." },
-    { "name": "mew",      "address": "0x5d628..................................." }
-  ],
-  "btcwallets": [
-    { "name": "ledger",   "address": "33cP.............................." }
-  ]
+  "wallets": {
+    "eth": [
+      { "name": "ledger",   "address": "0x0568F..................................." },
+      { "name": "metamask", "address": "0x3e714..................................." },
+      { "name": "coinbase", "address": "0x0B6c8..................................." },
+      { "name": "mew",      "address": "0x5d628..................................." }
+    ],
+    "bsc": [
+      { "name": "ledger",   "address": "0x3e714..................................." }
+    ],
+    "btc": [
+      { "name": "ledger",   "address": "33cP.............................." }
+    ]
+  }
 }

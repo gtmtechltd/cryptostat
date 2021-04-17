@@ -19,6 +19,27 @@ def sig(f)
   value
 end
 
+def usage
+  STDERR.puts <<-EOF
+$0 [arguments]
+
+-h   --help      Usage instructions
+     --no-cache  Do not use cached api calls
+-d   --debug     Output debug info
+-t   --trace     Output higher level debug
+EOF
+  exit 0
+end
+
+for arg in ARGV
+  case arg
+    when '-h','--help'      then usage
+    when '--no-cache'       then ENV['CRYPTOSTAT_NOCACHE'] = "true"
+    when '-d','--debug'     then ENV['CRYPTOSTAT_DEBUG'] = "true"
+    when '-t','--trace'     then ENV['CRYPTOSTAT_TRACE'] = "true"
+  end
+end
+
 config = Config.get
 
 price_overrides = if File.exists?("config/prices.json") then
@@ -48,27 +69,55 @@ end
 
 all = []
 
-[ "binance", "kraken", "kucoin", "manual", "probit" ].each do |exchange|
-  c = Kernel.const_get("Stat#{exchange.capitalize}")
-  if config.key? exchange then
-    coins = c.send( :get, config[ exchange ] )
+# EXCHANGES
+
+config["exchanges"].keys.each do |e|
+  exchange_name = e                          # Usually the exchange is just the key in the key-value pair
+  data = config["exchanges"][ exchange_name ]
+  if data.key? "exchange" then
+    exchange_name = data["exchange"]         # Sometimes you have multiple accounts in the same exchange, so get it from "exchange" attribute instead.
+  end
+  data["name"] = e
+   
+  coins = begin 
+    exchange = Kernel.const_get("Stat#{exchange_name.capitalize}")
+    exchange.send( :get, data )
+  rescue NameError
+    Utils.info "- #{exchange_name.capitalize} exchange has not been implemented yet - ignoring"
+    {}
+  end
+  dump coins
+  all << coins
+
+end
+
+# WALLETS
+
+config["wallets"].keys.each do |wallet_name|    # eth, bsc, btc
+  data   = config["wallets"][ wallet_name ]
+  data.each do |wallet_data|
+    coins = begin
+      wallet = Kernel.const_get("Stat#{wallet_name.capitalize}wallet")
+      wallet.send( :get, wallet_data )
+    rescue NameError
+      Utils.info "- #{wallet_name.capitalize} wallet has not been implemented yet - ignoring"
+      {}
+    end
     dump coins
     all << coins
   end
 end
 
-config["ethwallets"].each do |wallet|
-  coins = StatEthwallet.get( wallet )
-  dump coins
-  all << coins
-  sleep 5 unless ENV["CRYPTOSTAT_TEST"] == "true"    # To avoid Too Many Requests API rate limiting for multiple eth wallets
-end
+# PRICES
+
 xrate    = 1.0
-xrate    = StatFixer.get( config["fixer.io"] ) if config.key? "fixer.io"
+xrate    = StatFixer.get( config["prices"]["fixer.io"] ) if config["prices"].key? "fixer.io"
 currency = "USD"
-currency = config["fixer.io"]["currency"] if config.key? "fixer.io"
-prices   = StatCoinmarketcap.get( config["coinmarketcap"] )
+currency = config["prices"]["fixer.io"]["currency"] if config["prices"].key? "fixer.io"
+prices   = StatCoinmarketcap.get( config["prices"]["coinmarketcap"] )
 prices[ currency ] = (1.0 / xrate).to_s
+
+# CALCULATIONS
 
 coins = {}
 exchange_coins = {}
@@ -127,11 +176,20 @@ outputs.reverse.each do |output|
   end if usd > 1.0   # Don't print small amounts
 end
 puts "=================================================================================================================================================="
-puts "TOTAL                                                                 #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}"
+puts "TOTAL                                           #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}"
 puts ""
 puts "Portfolios"
 puts "========================================================="
 portfolios.each do | entity, percentage |
-  amount = total_usd.to_f * percentage.to_f / 100.0
-  puts "#{sprintf("%-12s", entity)}  #{sig(amount)} USD    #{sig(amount * xrate)} #{currency}"
+  amount = (total_usd.to_f * percentage.to_f / 100.0) * xrate
+  amount += config["extra"][entity].to_f if config.key? "extra" and config["extra"].key? entity
+  puts "#{sprintf("%-12s", entity)}  #{sig(amount)} #{currency}"
+end
+
+if Utils.get :used_cached_prices then
+  puts ""
+  puts "******************************************************************************************************"
+  puts "** To save API requests, some prices were calculated from cached values (usually up to an hour old) **"
+  puts "** - For up-to-the-second results, please specify --no-cache                                        **"
+  puts "******************************************************************************************************"
 end

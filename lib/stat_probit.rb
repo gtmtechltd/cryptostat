@@ -4,7 +4,7 @@ require_relative "./utils.rb"
 
 class StatProbit
   def self.get config
-
+    name     = config["name"]
     response = if ENV['CRYPTOSTAT_TEST'] == "true" then
       Utils.info "Analysing probit (testmode)..."
       File.read("examples/api.probit.com.txt")
@@ -44,7 +44,7 @@ class StatProbit
     json     = JSON.parse(response)
     result = {}
     json["data"].each do |item|
-      result[ "#{item["currency_id"]}.probit" ] = item["total"]
+      result[ "#{item["currency_id"]}.#{name}" ] = item["total"]
     end
     result
   end

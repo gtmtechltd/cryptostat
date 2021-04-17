@@ -20,6 +20,7 @@ class StatBinance
   end
 
   def self.get config
+    name                      = config["name"]
     ENV["BINANCE_API_KEY"]    = config["api_key"]
     ENV["BINANCE_SECRET_KEY"] = config["api_secret"]
     response = if ENV['CRYPTOSTAT_TEST'] == "true" then
@@ -34,8 +35,8 @@ class StatBinance
     Utils.debug response
 
     response[ :balances ].each do | balance |
-      result[ "#{balance[ :asset ]}.binance.free" ]   = balance[ :free ]   unless balance[ :free ].tr("0.", "").empty? 
-      result[ "#{balance[ :asset ]}.binance.locked" ] = balance[ :locked ] unless balance[ :locked ].tr("0.", "").empty?
+      result[ "#{balance[ :asset ]}.#{name}.free" ]   = balance[ :free ]   unless balance[ :free ].tr("0.", "").empty? 
+      result[ "#{balance[ :asset ]}.#{name}.locked" ] = balance[ :locked ] unless balance[ :locked ].tr("0.", "").empty?
     end
 
     result

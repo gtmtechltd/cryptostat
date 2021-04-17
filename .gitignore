@@ -2,3 +2,4 @@ config.json
 prices.json
 portfolios.json
 snapshots/*
+cache/*.cache

@@ -5,13 +5,15 @@ cryptostat
 
 Features:
 
-* **new** - Probit exchange
-* **new** - `test.sh` for testing individual cryptostat classes
-* bugfix - Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
-* **new** - Docker version
-* **new** - Eth wallet (ERC20) scanning now supported
-* **new** - Currency conversions to your favourite currency
-* **new** - Test mode for development using dummy API responses
+* **new** - 17 April 2021, Now you can specify multiple accounts on the same exchange
+* **new** - 17 April 2021, Cacheing of coinmarketcap/fixer prices to not exhaust API limits (1x hourly)
+* **new** - 16 April 2021, Probit exchange
+* **new** - 16 April 2021, `test.sh` for testing individual cryptostat classes
+* **bugfix** - 15 April 2021, Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
+* **new** - 15 April 2021, Docker version
+* **new** - 15 April 2021, Eth wallet (ERC20) scanning now supported
+* **new** - 14 April 2021, Currency conversions to your favourite currency
+* **new** - 13 April 2021, Test mode for development using dummy API responses
 * Gets realtime prices from coinmarketcap
 * Scans Kucoin, Kraken and Binance exchanges
 * Ability to specify offline coins 
@@ -21,19 +23,93 @@ Features:
 Setup
 -----
 
-Copy `config/config.json.example` to `config/config.json` and edit it to supply it with all your api keys.  For any exchanges you dont care about, just delete that section in the config document. 
+At the very minimum, you will need:
+
+* an API key for coinmarketcap.com (it can be the free one) - this is to query prices of crypto tokens.
+* an API key for `fixer.io` if you wish the prices to be displayed in a currency other than USD.
+
+Copy `config/config.json.example` to `config/config.json` and edit it to supply it with these and other api keys for your exchanges in the relevant sections. You will see examples of many exchanges - delete the entries you are not interested in.
 
 **Note:** Please allow only read access on your API keys for safety.
 
-The following API keys are relevant:
+config.json - exchanges
+-----------------------
 
-| api             | comment                            | mandatory |
-| --------------- | ---------------------------------- | --------- |
-| `coinmarketcap` | used to generate price list in USD | **YES**   |
-| `fixer.io`      | used to convert currencies         | only if specifying a display currency |
-| `binance`       | used to query binance exchange     | no        |
-| `kraken`        | used to query kraken exchange      | no        |
-| `kucoin`        | used to query kucoin exchange      | no        |
+A typical exchange entry looks like:
+
+```
+{
+  "exchanges": {
+    "kraken": {
+      "api_key": "...some..api..key..",
+      "api_secret": "...some..api..secret.."
+    }
+  }
+}
+```
+
+Sometimes you may wish to analyse 2 or more accounts on the same exchange. To do that, give each a different name, but use the "exchange" special attribute to set it to the same exchange:
+
+```
+{
+  "exchanges": {
+    "kraken1": {
+      "exchange": "kraken",
+      "api_key": "...some..api..key..",
+      "api_secret": "...some..api..secret.."
+    },
+    "kraken2": {
+      "exchange": "kraken",
+      "api_key": "...another..api..key..",
+      "api_secret": "...another..api..secret.."
+    }
+  }
+}
+```
+
+config.json - wallets
+---------------------
+
+A typical wallet to analyse looks like this:
+
+```
+  "wallets": {
+    "eth": [
+      { "name": "ledger",   "address": "....some...wallet...address..............." }
+    ]
+  }
+```
+
+config.json - prices
+--------------------
+
+Prices are obtained by analysing coinmarketcap (mandatory) and fixer.io (for currency conversions)
+
+Coinmarketcap section looks like this:
+
+```
+  "prices": {
+    "coinmarketcap": {
+      "api_key": "...some..api..key..................."
+    }
+  }
+```
+
+Fixer.io section is optional but looks like this:
+
+```
+  "prices": {
+    "fixer.io": {
+      "api_key": "4698b372882750c1bb9b017bad491583",
+      "currency": "GBP"
+    }
+  }
+```
+
+You set the target currency of the report with the `currency` field
+
+prices.json
+-----------
 
 **Optionally** Create a `config/prices.json` if you want to override current prices. This is useful if you wish to find out what your portfolio looked like in the past.
 
@@ -44,12 +120,25 @@ The following API keys are relevant:
 }
 ```
 
+portfolios.json
+---------------
+
 **Optionally** Create a `config/portfolios.json` if you want to divide your total crypto holdings into different portfolios (e.g. you are managing funds for different people)
 
 ```
 {
     "alice": "27.5%",
     "bob":   "72.5%"
+}
+```
+
+If you wish to add an unspecified fixed amount of target currency to alice's portfolio, independent of crypto coin analysis, you can do the following in `config.json`
+
+```
+{
+  "extras": {
+    "alice": "1250.0"
+  }
 }
 ```
 

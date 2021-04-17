@@ -3,6 +3,7 @@ require_relative "./utils.rb"
 
 class StatKucoin
   def self.get config
+    name   = config["name"]
     client = Kucoin::Api::REST.new \
       api_key:        config["api_key"],
       api_secret:     config["api_secret"],
@@ -18,7 +19,7 @@ class StatKucoin
 
     result = {}
     response.each do | balance |
-      result[ "#{balance[ "currency" ]}.kucoin.#{balance[ "type" ]}" ] = balance["balance"] unless balance["balance"].tr("0.", "").empty?
+      result[ "#{balance[ "currency" ]}.#{name}.#{balance[ "type" ]}" ] = balance["balance"] unless balance["balance"].tr("0.", "").empty?
     end
 
     result

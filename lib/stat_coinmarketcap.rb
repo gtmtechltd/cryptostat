@@ -7,7 +7,15 @@ class StatCoinmarketcap
     headers = {
       "X-CMC_PRO_API_KEY" => config["api_key"]
     }
-    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
+    cache = true
+  
+    response = if Utils.cacheok?( "coinmarketcap" ) and ENV['CRYPTOSTAT_NOCACHE'] != "true" then
+      cache = false
+      Utils.info "Analysing coinmarketcap (**from cache**)..."
+      Utils.set :used_cached_prices, true
+      Utils.read_cache( "coinmarketcap" ).to_json
+    elsif ENV['CRYPTOSTAT_TEST'] == "true" then
+      cache = false
       Utils.info "Analysing coinmarketcap (testmode)..."
       File.read("examples/pro-api.coinmarketcap.com.txt")
     else
@@ -15,6 +23,8 @@ class StatCoinmarketcap
       RestClient.get(url, headers)
     end 
     json     = JSON.parse(response)
+    cachejson = { "time" => Time.now.to_i, "result" => json }
+    Utils.write_cache "coinmarketcap", cachejson if cache
     prices   = {}
     json["data"].each do |item|
       prices[ item["symbol"] ] = item["quote"]["USD"]["price"]
