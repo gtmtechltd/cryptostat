@@ -37,6 +37,10 @@
     "manual": {
       "comment": "use this for any amounts you want to include separate to autodiscovery. Use format { TICKER.comment : 100.0 (Amount) }",
       "FET.staking": "100.0"
+    },
+    "mxc": {
+      "api_key": "m................V",
+      "api_secret": "0..............................f"
     }
   },
   "extra": {},

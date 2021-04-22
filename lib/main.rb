@@ -5,9 +5,12 @@ require_relative "./stat_binance.rb"
 require_relative "./stat_kraken.rb"
 require_relative "./stat_kucoin.rb"
 require_relative "./stat_manual.rb"
+require_relative "./stat_mxc.rb"
 require_relative "./stat_probit.rb"
+
 require_relative "./stat_coinmarketcap.rb"
 require_relative "./stat_fixer.rb"
+
 require_relative "./stat_ethwallet.rb"
 require_relative "./config.rb"
 

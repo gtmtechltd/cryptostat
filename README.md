@@ -5,6 +5,7 @@ cryptostat
 
 Features:
 
+* **new** - 22 April 2021, MXC exchange
 * **new** - 17 April 2021, Now you can specify multiple accounts on the same exchange
 * **new** - 17 April 2021, Cacheing of coinmarketcap/fixer prices to not exhaust API limits (1x hourly)
 * **new** - 16 April 2021, Probit exchange
