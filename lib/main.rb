@@ -135,12 +135,13 @@ all.each do |exchange|
 end
 
 puts ""
+to_screen = ""
 if currency == "USD" then
-  puts "- coin -| -- holdings --- | ---- price USD ---- | ---- total USD ---- | EXCHANGES"
+  to_screen += "- coin -| -- holdings --- | ---- price USD ---- | ---- total USD ---- | EXCHANGES\n"
 else
-  puts "- coin -| -- holdings --- | ---- price USD ---- | ---- price #{currency} ---- | ---- total #{currency} ---- | EXCHANGES"
+  to_screen += "- coin -| -- holdings --- | ---- price USD ---- | ---- price #{currency} ---- | ---- total #{currency} ---- | EXCHANGES\n"
 end
-puts "=================================================================================================================================================="
+to_screen += "==================================================================================================================================================\n"
 outputs = []
 total_usd = 0.0
 coins.keys.sort.each do |coin|
@@ -175,24 +176,27 @@ outputs.reverse.each do |output|
   lines = output[:lines]
   usd   = output[:usd]
   lines.each do |line|
-    puts line
+    to_screen += line + "\n"
   end if usd > 1.0   # Don't print small amounts
 end
-puts "=================================================================================================================================================="
-puts "TOTAL                                           #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}"
-puts ""
-puts "Portfolios"
-puts "========================================================="
+to_screen += "==================================================================================================================================================\n"
+to_screen += "TOTAL                                           #{sig(total_usd)} USD #{sig(total_usd * xrate)} #{currency}\n"
+to_screen += "\n"
+to_screen += "Portfolios\n"
+to_screen += "=========================================================\n"
 portfolios.each do | entity, percentage |
   amount = (total_usd.to_f * percentage.to_f / 100.0) * xrate
   amount += config["extra"][entity].to_f if config.key? "extra" and config["extra"].key? entity
-  puts "#{sprintf("%-12s", entity)}  #{sig(amount)} #{currency}"
+  to_screen += "#{sprintf("%-12s", entity)}  #{sig(amount)} #{currency}\n"
 end
 
 if Utils.get :used_cached_prices then
-  puts ""
-  puts "******************************************************************************************************"
-  puts "** To save API requests, some prices were calculated from cached values (usually up to an hour old) **"
-  puts "** - For up-to-the-second results, please specify --no-cache                                        **"
-  puts "******************************************************************************************************"
+  to_screen += "\n"
+  to_screen += "******************************************************************************************************\n"
+  to_screen += "** To save API requests, some prices were calculated from cached values (usually up to an hour old) **\n"
+  to_screen += "** - For up-to-the-second results, please specify --no-cache                                        **\n"
+  to_screen += "******************************************************************************************************\n"
+else
+  File.open("snapshots/#{Time.now.strftime("%Y-%m-%d.%H-%M-%S")}.txt", "w") { |f| f.write to_screen }
 end
+puts to_screen

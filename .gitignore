@@ -1,5 +1,5 @@
 config.json
 prices.json
 portfolios.json
-snapshots/*
+snapshots/*.txt
 cache/*.cache

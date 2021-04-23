@@ -5,16 +5,17 @@ cryptostat
 
 Features:
 
+* **new** - 23 April 2021, Every time `cryptostat` is run without cacheing, write results to `snapshots/` dir
 * **new** - 22 April 2021, MXC exchange
 * **new** - 17 April 2021, Now you can specify multiple accounts on the same exchange
 * **new** - 17 April 2021, Cacheing of coinmarketcap/fixer prices to not exhaust API limits (1x hourly)
 * **new** - 16 April 2021, Probit exchange
-* **new** - 16 April 2021, `test.sh` for testing individual cryptostat classes
-* **bugfix** - 15 April 2021, Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
-* **new** - 15 April 2021, Docker version
-* **new** - 15 April 2021, Eth wallet (ERC20) scanning now supported
-* **new** - 14 April 2021, Currency conversions to your favourite currency
-* **new** - 13 April 2021, Test mode for development using dummy API responses
+* 16 April 2021, `test.sh` for testing individual cryptostat classes
+* 15 April 2021, Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
+* 15 April 2021, Docker version
+* 15 April 2021, Eth wallet (ERC20) scanning now supported
+* 14 April 2021, Currency conversions to your favourite currency
+* 13 April 2021, Test mode for development using dummy API responses
 * Gets realtime prices from coinmarketcap
 * Scans Kucoin, Kraken and Binance exchanges
 * Ability to specify offline coins 
