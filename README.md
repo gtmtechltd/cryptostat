@@ -5,11 +5,12 @@ cryptostat
 
 Features:
 
-* **new** - 23 April 2021, Every time `cryptostat` is run without cacheing, write results to `snapshots/` dir
-* **new** - 22 April 2021, MXC exchange
-* **new** - 17 April 2021, Now you can specify multiple accounts on the same exchange
-* **new** - 17 April 2021, Cacheing of coinmarketcap/fixer prices to not exhaust API limits (1x hourly)
-* **new** - 16 April 2021, Probit exchange
+* **new** - 10 May 2021, Every time `cryptostat` requests an API, it now logs the results to the `history/` dir
+* 23 April 2021, Every time `cryptostat` is run without cacheing, write results to `snapshots/` dir
+* 22 April 2021, MXC exchange
+* 17 April 2021, Now you can specify multiple accounts on the same exchange
+* 17 April 2021, Cacheing of coinmarketcap/fixer prices to not exhaust API limits (1x hourly)
+* 16 April 2021, Probit exchange
 * 16 April 2021, `test.sh` for testing individual cryptostat classes
 * 15 April 2021, Dont mix up coin names with the same ticker - e.g. ATM != ATM(chain). Use contract address for lookups
 * 15 April 2021, Docker version

@@ -28,7 +28,7 @@ class StatBinance
       self.symbolize( JSON.parse( File.read( "examples/api.binance.com.txt" ) ) )
     else
       Utils.info "Analysing binance..."
-      Binance::Api.info!
+      Utils.prepare_result( name, Binance::Api.info! )
     end
 
     result                    = {}

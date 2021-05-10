@@ -75,12 +75,9 @@ all = []
 # EXCHANGES
 
 config["exchanges"].keys.each do |e|
-  exchange_name = e                          # Usually the exchange is just the key in the key-value pair
-  data = config["exchanges"][ exchange_name ]
-  if data.key? "exchange" then
-    exchange_name = data["exchange"]         # Sometimes you have multiple accounts in the same exchange, so get it from "exchange" attribute instead.
-  end
-  data["name"] = e
+  data          = config["exchanges"][ e ]
+  exchange_name = data.key?( "exchange" ) ? data["exchange"] : e
+  data["name"]  = e
    
   coins = begin 
     exchange = Kernel.const_get("Stat#{exchange_name.capitalize}")

@@ -31,7 +31,7 @@ class StatMxc
       Utils.debug "Headers:\n#{headers}\n"
       Utils.debug "Params:\n#{params}\n"
       Utils.debug "GET #{host}#{path}"
-      RestClient.get("#{host}#{path}", {headers: headers, params: params})
+      Utils.prepare_result( name, RestClient.get("#{host}#{path}", {headers: headers, params: params}) )
     end 
 
     #

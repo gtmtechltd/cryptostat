@@ -14,7 +14,7 @@ class StatKucoin
       JSON.parse( File.read( "examples/api.kucoin.com.txt" ) )
     else
       Utils.info "Analysing kucoin..."
-      client.user.accounts.list
+      Utils.prepare_result( name, client.user.accounts.list )
     end
 
     result = {}

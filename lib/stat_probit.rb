@@ -26,7 +26,7 @@ class StatProbit
       headers = {
         "Authorization" => authorization
       }
-      RestClient.get(url, headers)
+      Utils.prepare_result( name, RestClient.get(url, headers))
     end 
 
 #

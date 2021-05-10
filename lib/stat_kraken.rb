@@ -11,7 +11,7 @@ class StatKraken
       JSON.parse( File.read( "examples/api.kraken.com.txt" ) )
     else
       Utils.info "Analysing kraken..."
-      client.balance["result"]
+      Utils.prepare_result( name, client.balance["result"] )
     end
 
     translate_currencies = {

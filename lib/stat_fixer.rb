@@ -20,7 +20,7 @@ class StatFixer
       File.read( "examples/data.fixer.io.txt" )
     else
       Utils.info "Analysing fixer.io..."
-      RestClient.get(url, headers)
+      Utils.prepare_result( "fixer", RestClient.get(url, headers) )
     end
     json      = JSON.parse(response)
     cachejson = { "time" => Time.now.to_i, "result" => json }

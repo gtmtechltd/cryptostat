@@ -9,6 +9,6 @@ class StatManual
       next if k == "comment" or k == "name"
       result [ k ] = v unless v.tr("0.", "").empty?
     end
-    result
+    Utils.prepare_result( name, result )
   end
 end

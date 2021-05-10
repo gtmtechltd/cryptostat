@@ -20,11 +20,12 @@ class StatCoinmarketcap
       File.read("examples/pro-api.coinmarketcap.com.txt")
     else
       Utils.info "Analysing coinmarketcap..."
-      RestClient.get(url, headers)
+      Utils.prepare_result( "coinmarketcap", RestClient.get(url, headers) )
     end 
     json     = JSON.parse(response)
     cachejson = { "time" => Time.now.to_i, "result" => json }
     Utils.write_cache "coinmarketcap", cachejson if cache
+
     prices   = {}
     json["data"].each do |item|
       prices[ item["symbol"] ] = item["quote"]["USD"]["price"]

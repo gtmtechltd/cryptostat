@@ -37,6 +37,12 @@ class Utils
     File.open("cache/#{file}.cache", "w") { |f| f.write data.to_json }
   end
 
+  def self.prepare_result name, data
+    self.info "-> Writing history file history/#{_date}.#{name}.txt"
+    File.open("history/#{_date}.#{name}.txt") { |f| f.write data.to_s }
+    data
+  end
+
   def self.read_cache file
     text = File.read("cache/#{file}.cache")
     json = JSON.parse( text )

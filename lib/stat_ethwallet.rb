@@ -20,7 +20,7 @@ class StatEthwallet
       end
       @@lasttime = Time.now.to_i
       Utils.info "Analysing eth wallet #{name} (#{address.split(//).take(10).join("")}...)..."
-      RestClient.get(url, headers)
+      Utils.prepare_result( "ethwallet-#{address.split(//).take(7).join("")}", RestClient.get(url, headers))
     end
     json     = JSON.parse(response)
 
@@ -58,7 +58,7 @@ class StatEthwallet
       tokens[ "#{symbol}(#{address}).#{name}-#{address.split(//).take(7).join("")}" ] = balance
     end
 
-    tokens    
+    tokens
   end
 
 end
