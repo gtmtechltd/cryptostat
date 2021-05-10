@@ -3,3 +3,4 @@ prices.json
 portfolios.json
 snapshots/*.txt
 cache/*.cache
+history/*.txt

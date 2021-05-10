@@ -44,7 +44,7 @@ for arg in ARGV
 end
 
 config = Config.get
-
+$INVOCATION_DATE=Time.now.to_s.split(" +").first.tr ": ", "-"
 price_overrides = if File.exists?("config/prices.json") then
   prices_file = File.read("config/prices.json")
   JSON.parse(prices_file)
@@ -76,8 +76,9 @@ all = []
 
 config["exchanges"].keys.each do |e|
   data          = config["exchanges"][ e ]
-  exchange_name = data.key?( "exchange" ) ? data["exchange"] : e
+  exchange_name = data["exchange"] || e
   data["name"]  = e
+  puts "#{exchange_name.capitalize}"
    
   coins = begin 
     exchange = Kernel.const_get("Stat#{exchange_name.capitalize}")

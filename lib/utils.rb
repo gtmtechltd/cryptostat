@@ -38,8 +38,10 @@ class Utils
   end
 
   def self.prepare_result name, data
-    self.info "-> Writing history file history/#{_date}.#{name}.txt"
-    File.open("history/#{_date}.#{name}.txt") { |f| f.write data.to_s }
+    _date = $INVOCATION_DATE
+    filename = "history/#{_date}.#{name}.txt"
+    self.info "-> Writing history file #{filename}"
+    File.open(filename, "w") { |f| f.write data.to_s }
     data
   end
 
