@@ -55,6 +55,14 @@
       "currency": "GBP"
     }
   },
+  "wallet_api_keys": {
+    "eth": {
+      "api.ethplorer.io": "freekey"
+    },
+    "bsc": {
+      "graphql.bitquery.io": "B..............................B"
+    }
+  },
   "wallets": {
     "eth": [
       { "name": "ledger",   "address": "0x0568F..................................." },
@@ -63,7 +71,7 @@
       { "name": "mew",      "address": "0x5d628..................................." }
     ],
     "bsc": [
-      { "name": "ledger",   "address": "0x3e714..................................." }
+      { "name": "metamask", "address": "0x3e714..................................." }
     ],
     "btc": [
       { "name": "ledger",   "address": "33cP.............................." }

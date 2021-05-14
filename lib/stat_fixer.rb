@@ -14,7 +14,7 @@ class StatFixer
       cache = false
       Utils.set :used_cached_prices, true
       Utils.read_cache( "fixer.io" ).to_json
-    elsif ENV['CRYPTOSTAT_TEST'] == "true" then
+    elsif ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       cache = false
       Utils.info "Analysing fixer.io (testmode)..."
       File.read( "examples/data.fixer.io.txt" )

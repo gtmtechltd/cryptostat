@@ -5,7 +5,7 @@ require_relative "./utils.rb"
 class StatProbit
   def self.get config
     name     = config["name"]
-    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
+    response = if ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       Utils.info "Analysing probit (testmode)..."
       File.read("examples/api.probit.com.txt")
     else

@@ -6,7 +6,7 @@ class StatKraken
     name   = config["name"]
     client = Kraken::Client.new(api_key: config["api_key"], api_secret: config["api_secret"])
 
-    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
+    response = if ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       Utils.info "Analysing kraken (testmode)..."
       JSON.parse( File.read( "examples/api.kraken.com.txt" ) )
     else

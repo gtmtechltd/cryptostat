@@ -5,13 +5,14 @@ class StatEthwallet
   
   @@lasttime = Time.now.to_i
 
-  def self.get wallet
+  def self.get wallet, api_keys
     address  = wallet["address"]
     name     = wallet["name"]
+    api_key  = api_keys["api.ethplorer.io"]
 
     headers  = {}
-    url      = "https://api.ethplorer.io/getAddressInfo/#{address}?apiKey=freekey"
-    response = if ENV["CRYPTOSTAT_TEST"] == "true" then
+    url      = "https://api.ethplorer.io/getAddressInfo/#{address}?apiKey=#{api_key}"
+    response = if ENV["CRYPTOSTAT_TEST"].include? "fromcache" then
       Utils.info "Analysing eth wallet #{name} (#{address}) (testmode)..."
       File.read("examples/api.ethplorer.io.txt")
     else

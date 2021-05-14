@@ -9,5 +9,7 @@ if [ -z "$1" ];then
   usage
 fi
 
+export CRYPTOSTAT_TEST=nohistory
+
 set -x
-bundle exec lib/test.rb $1
+bundle exec lib/test-exchange.rb $1

@@ -16,7 +16,7 @@ class StatMxc
 
   def self.get config
     name     = config["name"]
-    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
+    response = if ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       Utils.info "Analysing mxc (testmode)..."
       File.read("examples/www.mxc.com.txt")
     else

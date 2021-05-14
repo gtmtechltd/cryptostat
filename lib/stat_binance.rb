@@ -23,7 +23,7 @@ class StatBinance
     name                      = config["name"]
     ENV["BINANCE_API_KEY"]    = config["api_key"]
     ENV["BINANCE_SECRET_KEY"] = config["api_secret"]
-    response = if ENV['CRYPTOSTAT_TEST'] == "true" then
+    response = if ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       Utils.info "Analysing binance (testmode)..."
       self.symbolize( JSON.parse( File.read( "examples/api.binance.com.txt" ) ) )
     else

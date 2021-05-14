@@ -5,6 +5,7 @@ cryptostat
 
 Features:
 
+* **new** - 14 May 2021, Now support BSC chain wallet addresses through graphql.bitquery.io
 * **new** - 10 May 2021, Every time `cryptostat` requests an API, it now logs the results to the `history/` dir
 * 23 April 2021, Every time `cryptostat` is run without cacheing, write results to `snapshots/` dir
 * 22 April 2021, MXC exchange
@@ -210,8 +211,8 @@ bundle install
 Set some useful env vars:
 
 ```
-export CRYPTOSTAT_TEST=true       # Use dummy files, dont query real APIs
-export CRYPTOSTAT_DEBUG=true      # show debug
+export CRYPTOSTAT_TEST=fromcache,nohistory  # Use dummy files, dont query real APIs
+export CRYPTOSTAT_DEBUG=true                # show debug
 ```
 
 Run:

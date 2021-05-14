@@ -12,7 +12,10 @@ require_relative "./stat_coinmarketcap.rb"
 require_relative "./stat_fixer.rb"
 
 require_relative "./stat_ethwallet.rb"
+require_relative "./stat_bscwallet.rb"
 require_relative "./config.rb"
+
+ENV["CRYPTOSTAT_TEST"] = "" unless ENV["CRYPTOSTAT_TEST"]
 
 def sig(f)
   value = sprintf("%8.8f", f)
@@ -95,11 +98,12 @@ end
 # WALLETS
 
 config["wallets"].keys.each do |wallet_name|    # eth, bsc, btc
-  data   = config["wallets"][ wallet_name ]
+  data     = config["wallets"][ wallet_name ]
+  api_keys = config["wallet_api_keys"][ wallet_name ] ||= {}
   data.each do |wallet_data|
     coins = begin
       wallet = Kernel.const_get("Stat#{wallet_name.capitalize}wallet")
-      wallet.send( :get, wallet_data )
+      wallet.send( :get, wallet_data, api_keys )
     rescue NameError
       Utils.info "- #{wallet_name.capitalize} wallet has not been implemented yet - ignoring"
       {}
@@ -184,8 +188,13 @@ to_screen += "Portfolios\n"
 to_screen += "=========================================================\n"
 portfolios.each do | entity, percentage |
   amount = (total_usd.to_f * percentage.to_f / 100.0) * xrate
-  amount += config["extra"][entity].to_f if config.key? "extra" and config["extra"].key? entity
-  to_screen += "#{sprintf("%-12s", entity)}  #{sig(amount)} #{currency}\n"
+  to_screen += "#{sprintf("%-12s", entity)}  #{sig(amount)} #{currency} "
+  if config.key? "extra" and config["extra"].key? entity then
+    to_screen += "+ #{sig(config["extra"][entity].to_f)}  #{currency} "
+    amount += config["extra"][entity].to_f
+    to_screen += "= #{sig(amount)}  #{currency} "
+  end
+  to_screen += "\n"
 end
 
 if Utils.get :used_cached_prices then

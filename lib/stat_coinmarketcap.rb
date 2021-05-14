@@ -14,7 +14,7 @@ class StatCoinmarketcap
       Utils.info "Analysing coinmarketcap (**from cache**)..."
       Utils.set :used_cached_prices, true
       Utils.read_cache( "coinmarketcap" ).to_json
-    elsif ENV['CRYPTOSTAT_TEST'] == "true" then
+    elsif ENV['CRYPTOSTAT_TEST'].include? "fromcache" then
       cache = false
       Utils.info "Analysing coinmarketcap (testmode)..."
       File.read("examples/pro-api.coinmarketcap.com.txt")
